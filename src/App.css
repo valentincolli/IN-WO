@@ -1,0 +1,1008 @@
+/* ========================================
+   INFERNAL WOLVES - WORLD OF TANKS CLAN
+   Estilo: Militar / Bélico / Simple
+   ======================================== */
+
+/* Variables CSS */
+:root {
+  --color-bg-dark: #0d0d0d;
+  --color-bg-main: #141414;
+  --color-bg-card: #1c1c1c;
+  --color-bg-card-hover: #252525;
+  --color-accent: #c9a227;
+  --color-accent-dark: #a68521;
+  --color-military-green: #4a5d23;
+  --color-military-dark: #2d3a16;
+  --color-steel: #5c5c5c;
+  --color-steel-light: #8a8a8a;
+  --color-blood: #8b0000;
+  --color-text-primary: #e8e8e8;
+  --color-text-secondary: #999999;
+  --color-text-muted: #666666;
+  --color-border: #333333;
+  --color-success: #4a7c23;
+  --color-danger: #8b0000;
+  --font-primary: 'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-secondary: 'Roboto Condensed', 'Arial', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-secondary);
+  background: var(--color-bg-dark);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  background: 
+    linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,0.95) 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.01) 2px,
+      rgba(255,255,255,0.01) 4px
+    );
+}
+
+/* ========================================
+   HEADER - Estilo Militar
+   ======================================== */
+.header {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+  border-bottom: 3px solid var(--color-accent);
+  padding: 1.5rem 2rem;
+  position: relative;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent) 0px,
+    var(--color-accent) 20px,
+    transparent 20px,
+    transparent 25px
+  );
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.clan-emblem {
+  width: 90px;
+  height: 90px;
+  border: 3px solid var(--color-accent);
+  background: var(--color-bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.clan-emblem::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid var(--color-steel);
+}
+
+.emblem-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.emblem-placeholder {
+  font-size: 3rem;
+}
+
+.clan-title {
+  flex: 1;
+}
+
+.clan-title h1 {
+  font-family: var(--font-primary);
+  font-size: 2.8rem;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.clan-tag {
+  color: var(--color-accent);
+}
+
+.clan-name {
+  color: var(--color-text-primary);
+}
+
+.clan-motto {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.clan-quick-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+}
+
+.stat-item .stat-value {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 1.8rem;
+  color: var(--color-accent);
+  letter-spacing: 2px;
+}
+
+.stat-item .stat-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.section-title {
+  font-family: var(--font-primary);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.75rem;
+}
+
+.section-title::before {
+  content: '//';
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.section-title::after {
+  display: none;
+}
+
+.fire-icon {
+  display: none;
+}
+
+/* ========================================
+   CLAN INFO - Grid Militar
+   ======================================== */
+.clan-info-section {
+  margin-bottom: 3rem;
+}
+
+.clan-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+}
+
+.info-card {
+  background: var(--color-bg-card);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.2s;
+}
+
+.info-card:hover {
+  background: var(--color-bg-card-hover);
+}
+
+.info-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.15rem;
+}
+
+.info-value {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.clan-tag-value {
+  color: var(--color-accent);
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.clan-description {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-military-green);
+}
+
+.clan-description h3 {
+  display: none;
+}
+
+.clan-description p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ========================================
+   MEMBERS CONTROLS
+   ======================================== */
+.members-section {
+  margin-bottom: 2rem;
+}
+
+.members-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.5rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  font-family: var(--font-secondary);
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.search-box input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sort-select,
+.role-select {
+  padding: 0.6rem 0.75rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  font-family: var(--font-secondary);
+  cursor: pointer;
+}
+
+.sort-select:focus,
+.role-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.sort-select option,
+.role-select option {
+  background: var(--color-bg-dark);
+}
+
+/* ========================================
+   MEMBER CARDS - Estilo Ficha Militar
+   ======================================== */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.75rem;
+}
+
+.member-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-steel);
+  transition: background 0.15s;
+}
+
+.member-card:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-accent);
+}
+
+.member-card:hover::before {
+  background: var(--color-accent);
+}
+
+.member-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.member-role-icon {
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+}
+
+.member-name-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-name {
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-role {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.wn8-badge {
+  padding: 0.35rem 0.5rem;
+  text-align: center;
+  min-width: 55px;
+}
+
+.wn8-badge .wn8-value {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.wn8-badge .wn8-label {
+  display: block;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.member-stats {
+  padding: 0.75rem;
+}
+
+.stat-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-row.single {
+  justify-content: center;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+}
+
+.stat.full-width {
+  flex: none;
+}
+
+.stat-icon {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  letter-spacing: 1px;
+}
+
+.stat-text {
+  font-size: 0.55rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.member-footer {
+  display: none;
+}
+
+.view-more {
+  display: none;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.no-results-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.no-stats {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+}
+
+.no-stats-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+/* ========================================
+   MODAL - Estilo Dossier
+   ======================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: var(--color-bg-main);
+  border: 1px solid var(--color-accent);
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-content::before {
+  content: 'DOSSIER';
+  position: absolute;
+  top: 0;
+  right: 50px;
+  background: var(--color-accent);
+  color: var(--color-bg-dark);
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.75rem;
+  letter-spacing: 2px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-dark);
+}
+
+.modal-header {
+  background: var(--color-bg-card);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  background: var(--color-bg-dark);
+  border: 2px solid var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 2rem;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name {
+  font-family: var(--font-primary);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  letter-spacing: 2px;
+  margin-bottom: 0.15rem;
+}
+
+.player-role {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.player-wn8 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.wn8-big {
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.modal-body {
+  padding: 1rem 1.5rem;
+}
+
+.stats-section {
+  margin-bottom: 1.5rem;
+}
+
+.stats-section h3 {
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.stat-box {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.stat-box:hover {
+  border-color: var(--color-steel-light);
+}
+
+.stat-box.highlight {
+  border-color: var(--color-accent);
+  border-left-width: 3px;
+}
+
+.stat-box.wide {
+  grid-column: span 1;
+}
+
+.stat-box .stat-value {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  letter-spacing: 1px;
+  margin-bottom: 0.15rem;
+}
+
+.stat-box .stat-label {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.external-link {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-family: var(--font-primary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+
+.external-link:hover {
+  background: var(--color-accent);
+  color: var(--color-bg-dark);
+}
+
+/* ========================================
+   LOADING - Militar
+   ======================================== */
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-dark);
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.tank-loader {
+  display: none;
+}
+
+.loading-flames {
+  margin-bottom: 1rem;
+}
+
+.loading-flames .flame {
+  font-size: 1.5rem;
+  margin: 0 0.25rem;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.loading-flames .flame:nth-child(2) { animation-delay: 0.15s; }
+.loading-flames .flame:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.loading-text {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 2px;
+  background: var(--color-border);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.loading-progress {
+  width: 30%;
+  height: 100%;
+  background: var(--color-accent);
+  animation: loadingSlide 1s ease-in-out infinite;
+}
+
+@keyframes loadingSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* ========================================
+   ERROR
+   ======================================== */
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-dark);
+  padding: 2rem;
+}
+
+.error-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.error-content h2 {
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  color: var(--color-danger);
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.error-content p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.retry-button {
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-family: var(--font-primary);
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.retry-button:hover {
+  background: var(--color-accent);
+  color: var(--color-bg-dark);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  background: var(--color-bg-main);
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.footer p {
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.footer .wolf-emoji {
+  color: var(--color-accent);
+}
+
+.footer-small {
+  font-size: 0.7rem !important;
+  margin-top: 0.25rem;
+  letter-spacing: 1px !important;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .clan-title h1 {
+    font-size: 2rem;
+  }
+
+  .clan-quick-stats {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .members-controls {
+    flex-direction: column;
+  }
+
+  .filter-controls {
+    width: 100%;
+  }
+
+  .sort-select,
+  .role-select {
+    flex: 1;
+  }
+
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-header {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .clan-title h1 {
+    font-size: 1.6rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ========================================
+   BACKGROUND EFFECTS - Removidos para simplicidad
+   ======================================== */
+.background-effects,
+.smoke {
+  display: none;
+}
