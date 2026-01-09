@@ -1,7 +1,7 @@
 import React from 'react';
 import { calculateWN8, getWN8Color, getWN8Label } from '../services/wargamingApi';
 
-const MemberCard = ({ member, stats, onClick }) => {
+const MemberCard = ({ member, stats, onClick, tier10Count }) => {
   // Acceder a las estadísticas correctamente
   const playerStats = stats?.statistics?.all;
   const wn8 = playerStats && playerStats.battles > 0 ? calculateWN8(playerStats) : 0;
@@ -123,14 +123,25 @@ const MemberCard = ({ member, stats, onClick }) => {
           </div>
         </div>
 
-        <div className="stat-row single">
-          <div className="stat full-width">
+        <div className="stat-row">
+          <div className="stat">
             <span className="stat-icon">🕐</span>
             <div className="stat-info">
               <span className="stat-number">{getLastOnline()}</span>
               <span className="stat-text">Última Batalla</span>
             </div>
           </div>
+          {tier10Count !== null && (
+            <div className="stat">
+              <span className="stat-icon">🔟</span>
+              <div className="stat-info">
+                <span className="stat-number" style={{ fontWeight: 'bold' }}>
+                  {tier10Count}
+                </span>
+                <span className="stat-text">Tier 10</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

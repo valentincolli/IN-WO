@@ -84,7 +84,7 @@ export const getMultiplePlayersStats = async (accountIds) => {
   }
 };
 
-// Obtener tanques del jugador
+// Obtener tanques del jugador (lista básica)
 export const getPlayerTanks = async (accountId) => {
   try {
     const response = await api.get(`${BASE_URL}/account/tanks/`, {
@@ -96,6 +96,52 @@ export const getPlayerTanks = async (accountId) => {
     return response.data;
   } catch (error) {
     console.error('Error obteniendo tanques:', error);
+    throw error;
+  }
+};
+
+// Obtener estadísticas detalladas por tanque del jugador
+export const getPlayerTankStats = async (accountId) => {
+  try {
+    console.log('Fetching tank stats for account:', accountId);
+    const response = await api.get(`${BASE_URL}/tanks/stats/`, {
+      params: {
+        application_id: API_KEY,
+        account_id: accountId
+      }
+    });
+    console.log('Tank stats response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo stats de tanques:', error);
+    throw error;
+  }
+};
+
+// Cache para información de vehículos (evitar múltiples llamadas)
+let vehiclesCache = null;
+
+// Obtener información de todos los vehículos (con cache)
+export const getAllVehiclesInfo = async () => {
+  if (vehiclesCache) {
+    return vehiclesCache;
+  }
+  
+  try {
+    const response = await api.get(`${BASE_URL}/encyclopedia/vehicles/`, {
+      params: {
+        application_id: API_KEY,
+        fields: 'tank_id,name,tier,type,nation,images.contour_icon'
+      }
+    });
+    
+    if (response.data.status === 'ok') {
+      vehiclesCache = response.data.data;
+    }
+    
+    return response.data.data;
+  } catch (error) {
+    console.error('Error obteniendo info de vehículos:', error);
     throw error;
   }
 };
@@ -180,3 +226,4 @@ export const getWN8Label = (wn8) => {
   if (wn8 >= 450) return 'Bajo Promedio';
   return 'Principiante';
 };
+

@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { CONFIG } from './config/config';
 import { getClanInfo, getMultiplePlayersStats } from './services/wargamingApi';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
 import ClanInfo from './components/ClanInfo';
 import MemberList from './components/MemberList';
+import BattleTeamManager from './components/BattleTeamManager';
+import AdminTeamsView from './components/AdminTeamsView';
 import PlayerModal from './components/PlayerModal';
 import Loading from './components/Loading';
+import Login from './components/Login';
 
-function App() {
+// Componente principal de la app (con autenticación)
+function AppContent() {
   const [clanInfo, setClanInfo] = useState(null);
   const [playersStats, setPlayersStats] = useState({});
   const [loading, setLoading] = useState(true);
@@ -16,6 +21,8 @@ function App() {
   const [error, setError] = useState(null);
   const [errorDetails, setErrorDetails] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  
+  const { user, logout, isAuthenticated, isOfficer, isAdmin } = useAuth();
 
   useEffect(() => {
     loadClanData();
@@ -58,15 +65,13 @@ function App() {
       console.log('Datos del clan:', clan);
       setClanInfo(clan);
       
-      // Obtener estadísticas de todos los miembros
+      // Cargar estadísticas de miembros (para mostrar stats generales en página pública)
       if (clan.members) {
         setLoadingMessage('Cargando estadísticas de miembros...');
-        // clan.members es un ARRAY, extraemos los account_id de cada miembro
         const memberIds = clan.members.map(member => member.account_id);
         console.log('Total miembros:', memberIds.length);
         console.log('Primeros 5 IDs:', memberIds.slice(0, 5));
         
-        // Dividir en chunks de 100 (límite de la API)
         const chunks = [];
         for (let i = 0; i < memberIds.length; i += 100) {
           chunks.push(memberIds.slice(i, i + 100));
@@ -146,6 +151,12 @@ function App() {
     );
   }
 
+  // Si no está autenticado, mostrar vista pública
+  if (!isAuthenticated()) {
+    return <Login clanInfo={clanInfo} playersStats={playersStats} />;
+  }
+
+  // Usuario autenticado - mostrar contenido completo
   return (
     <div className="app">
       <div className="background-effects">
@@ -154,15 +165,90 @@ function App() {
         <div className="smoke smoke-3"></div>
       </div>
       
+      {/* Header con info de usuario */}
       <Header clanInfo={clanInfo} />
+      
+      {/* Barra de usuario */}
+      <div className="user-bar">
+        <div className="user-info">
+          <span className="user-welcome">
+            Bienvenido, <strong>{user?.name}</strong>
+          </span>
+          <span className={`user-role role-${user?.role}`}>
+            {user?.role === 'officer' ? '⭐ Oficial' : 
+             user?.role === 'admin' ? '👑 Admin' : '🎮 Miembro'}
+          </span>
+        </div>
+        <button onClick={logout} className="logout-btn">
+          🚪 Cerrar Sesión
+        </button>
+      </div>
       
       <main className="main-content">
         <ClanInfo clanInfo={clanInfo} />
-        <MemberList 
-          members={clanInfo?.members} 
-          playersStats={playersStats}
-          onMemberClick={handleMemberClick}
-        />
+        
+        {/* Panel de oficial (solo para el usuario genérico "oficial" y admin genérico) */}
+        {isOfficer() && user?.username === 'oficial' && (
+          <div className="officer-panel">
+            <h3 className="section-title">
+              <span>⭐</span> Panel de Oficial
+            </h3>
+            <div className="officer-actions">
+              <div className="officer-stat">
+                <span className="officer-stat-value">{clanInfo?.members_count || 0}</span>
+                <span className="officer-stat-label">Miembros Totales</span>
+              </div>
+              <div className="officer-stat">
+                <span className="officer-stat-value">
+                  {Object.values(playersStats).filter(p => {
+                    const lastBattle = p?.last_battle_time;
+                    if (!lastBattle) return false;
+                    const daysSince = (Date.now() / 1000 - lastBattle) / (60 * 60 * 24);
+                    return daysSince <= 7;
+                  }).length}
+                </span>
+                <span className="officer-stat-label">Activos (7 días)</span>
+              </div>
+              <div className="officer-stat">
+                <span className="officer-stat-value">
+                  {Object.values(playersStats).filter(p => {
+                    const lastBattle = p?.last_battle_time;
+                    if (!lastBattle) return false;
+                    const daysSince = (Date.now() / 1000 - lastBattle) / (60 * 60 * 24);
+                    return daysSince > 30;
+                  }).length}
+                </span>
+                <span className="officer-stat-label">Inactivos (+30 días)</span>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Vista de Admin: Ver todos los equipos */}
+        {isAdmin() && user?.username === 'admin' ? (
+          <>
+            <AdminTeamsView playersStats={playersStats} />
+            <MemberList 
+              members={clanInfo?.members} 
+              playersStats={playersStats}
+              onMemberClick={handleMemberClick}
+            />
+          </>
+        ) : isOfficer() && user?.username !== 'oficial' && user?.username !== 'admin' ? (
+          /* Gestor de Equipos de Batalla para todos los oficiales */
+          <BattleTeamManager 
+            members={clanInfo?.members} 
+            playersStats={playersStats}
+            onMemberClick={handleMemberClick}
+            username={user?.username}
+          />
+        ) : (
+          <MemberList 
+            members={clanInfo?.members} 
+            playersStats={playersStats}
+            onMemberClick={handleMemberClick}
+          />
+        )}
       </main>
 
       <footer className="footer">
@@ -184,6 +270,15 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+// App wrapper con AuthProvider
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
