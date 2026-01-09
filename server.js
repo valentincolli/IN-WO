@@ -127,10 +127,18 @@ app.get('/api/health', (req, res) => {
 
 // Servir archivos estáticos del frontend en producción
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
+  // Servir archivos estáticos (JS, CSS, imágenes, etc.)
+  app.use(express.static(path.join(__dirname, 'build'), {
+    maxAge: '1y',
+    etag: false
+  }));
   
-  // Todas las rutas que no sean /api van al frontend
-  app.get('*', (req, res) => {
+  // Todas las rutas que no sean /api van al frontend (SPA routing)
+  app.get('*', (req, res, next) => {
+    // Excluir rutas de API y archivos estáticos
+    if (req.path.startsWith('/api') || req.path.startsWith('/static')) {
+      return next();
+    }
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
 }
