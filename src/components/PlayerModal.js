@@ -217,17 +217,6 @@ const PlayerModal = ({ player, stats, onClose }) => {
     return types[type] || '⚪';
   };
 
-  const getTankTypeName = (type) => {
-    const types = {
-      lightTank: 'Ligero',
-      mediumTank: 'Medio',
-      heavyTank: 'Pesado',
-      'AT-SPG': 'Cazatanques',
-      SPG: 'Artillería'
-    };
-    return types[type] || type;
-  };
-
   // Ordenar tanques
   const sortTanks = (key) => {
     let direction = 'desc';
