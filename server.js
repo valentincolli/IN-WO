@@ -127,18 +127,16 @@ app.get('/api/health', (req, res) => {
 
 // Servir archivos estáticos del frontend en producción
 if (process.env.NODE_ENV === 'production') {
-  // Servir archivos estáticos (JS, CSS, imágenes, etc.)
-  app.use(express.static(path.join(__dirname, 'build'), {
-    maxAge: '1y',
-    etag: false
-  }));
+  // Servir archivos estáticos (JS, CSS, imágenes, etc.) - DEBE ir antes del catch-all
+  app.use(express.static(path.join(__dirname, 'build')));
   
-  // Todas las rutas que no sean /api van al frontend (SPA routing)
-  app.get('*', (req, res, next) => {
-    // Excluir rutas de API y archivos estáticos
-    if (req.path.startsWith('/api') || req.path.startsWith('/static')) {
-      return next();
+  // Todas las rutas que no sean /api y que no sean archivos estáticos van al frontend (SPA routing)
+  app.get('*', (req, res) => {
+    // Si es una ruta de API, no hacer nada (ya se manejó arriba)
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ error: 'Not found' });
     }
+    // Para todas las demás rutas, servir index.html (SPA routing)
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
 }
