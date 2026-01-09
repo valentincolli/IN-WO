@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MemberCard from './MemberCard';
 import { calculateWN8, getPlayerTankStats, getAllVehiclesInfo } from '../services/wargamingApi';
-import { getTeam, saveTeam, deleteTeam, getAllTeams } from '../services/teamApi';
+import { getTeam, saveTeam, getAllTeams } from '../services/teamApi';
 
 const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -98,7 +98,10 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
   }, [teamMembers, username, isInitialLoad, isLoadingTeam]);
 
   // Convertir members a array si es necesario (definir antes de usarlo en useEffects)
-  const membersArray = Array.isArray(members) ? members : (members ? Object.values(members) : []);
+  const membersArray = React.useMemo(() => 
+    Array.isArray(members) ? members : (members ? Object.values(members) : []), 
+    [members]
+  );
 
   // Cargar cantidad de tier 10 para cada jugador del equipo
   useEffect(() => {
@@ -503,7 +506,6 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
               </thead>
               <tbody>
                 {teamMembers.map((member, index) => {
-                  const stats = playersStats[member.account_id];
                   const playerStats = getPlayerStats(member);
                   const winRate = playerStats && playerStats.battles > 0 
                     ? ((playerStats.wins / playerStats.battles) * 100).toFixed(2) 
@@ -606,7 +608,6 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
             const isRestricted = isRestrictedOfficer(member.role);
             const playerCheck = isPlayerInOtherTeam(member.account_id);
             const isInOtherTeam = playerCheck.inOtherTeam;
-            const canAdd = !isRestricted && !isInOtherTeam; // No se puede agregar si es restringido o está en otro equipo
             
             return (
               <div key={member.account_id} className="member-card-wrapper">

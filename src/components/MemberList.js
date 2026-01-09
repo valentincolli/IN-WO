@@ -24,7 +24,10 @@ const MemberList = ({ members, playersStats, onMemberClick }) => {
   };
 
   // Convertir members a array si es necesario
-  const membersArray = Array.isArray(members) ? members : (members ? Object.values(members) : []);
+  const membersArray = React.useMemo(() => 
+    Array.isArray(members) ? members : (members ? Object.values(members) : []), 
+    [members]
+  );
 
   // Cargar cantidad de tier 10 para todos los miembros
   useEffect(() => {

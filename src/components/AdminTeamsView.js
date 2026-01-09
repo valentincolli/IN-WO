@@ -167,11 +167,6 @@ const AdminTeamsView = ({ playersStats }) => {
     return playersStats[member.account_id]?.statistics?.all || null;
   };
 
-  const formatNumber = (num) => {
-    if (num === undefined || num === null) return '0';
-    return num.toLocaleString('es-ES');
-  };
-
   const renderTeamTable = (username, team, displayName) => {
     const isDragOver = dragOverTeam === username;
     const isEmpty = !team || team.length === 0;
