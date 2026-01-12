@@ -13,6 +13,22 @@ const AdminTeamsView = ({ playersStats }) => {
 
   useEffect(() => {
     loadAllTeams();
+    
+    // Recargar equipos cada 10 segundos para ver cambios en tiempo real
+    const interval = setInterval(() => {
+      loadAllTeams();
+    }, 10000);
+    
+    // Recargar cuando la ventana recupera el foco
+    const handleFocus = () => {
+      loadAllTeams();
+    };
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
 

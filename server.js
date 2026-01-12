@@ -108,11 +108,20 @@ app.get('/api/teams', async (req, res) => {
       if (file.endsWith('_team.json')) {
         const username = file.replace('_team.json', '');
         const filePath = path.join(DATA_DIR, file);
-        const data = await fs.readFile(filePath, 'utf8');
-        teams[username] = JSON.parse(data);
+        try {
+          const data = await fs.readFile(filePath, 'utf8');
+          const team = JSON.parse(data);
+          // Usar el nombre normalizado (del archivo) como clave
+          teams[username] = team;
+          console.log(`Equipo cargado para listado: ${username} (${team.length} miembros)`);
+        } catch (fileError) {
+          console.error(`Error leyendo archivo ${file}:`, fileError);
+          // Continuar con el siguiente archivo
+        }
       }
     }
     
+    console.log(`Total equipos listados: ${Object.keys(teams).length}`);
     res.json({ success: true, teams });
   } catch (error) {
     console.error('Error listando equipos:', error);
