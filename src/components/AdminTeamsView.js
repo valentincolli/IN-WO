@@ -34,9 +34,18 @@ const AdminTeamsView = ({ playersStats }) => {
 
   const loadAllTeams = async () => {
     setLoading(true);
-    const teams = await getAllTeams();
-    setAllTeams(teams);
-    setLoading(false);
+    try {
+      const teams = await getAllTeams();
+      console.log('Equipos cargados en AdminTeamsView:', Object.keys(teams));
+      console.log('Detalles:', Object.entries(teams).map(([user, team]) => 
+        `${user}: ${Array.isArray(team) ? team.length : 0} miembros`
+      ));
+      setAllTeams(teams);
+    } catch (error) {
+      console.error('Error cargando equipos:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Manejar inicio del drag
