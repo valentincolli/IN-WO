@@ -18,7 +18,8 @@ const USERS = [
   { username: 'CrossNeri', password: 'CrossNeri123', role: 'officer', name: 'CrossNeri' },
   { username: 'Katlyne', password: 'Katlyne123', role: 'officer', name: 'Katlyne' },
   { username: 'CORDERO', password: 'CORDERO123', role: 'officer', name: 'CORDERO' },
-  { username: 'Sunstrider_Revenge', password: 'Sunstrider_Revenge123', role: 'officer', name: 'Sunstrider_Revenge' }
+  { username: 'Sunstrider_Revenge', password: 'Sunstrider_Revenge123', role: 'officer', name: 'Sunstrider_Revenge' },
+  { username: 'Tia_turbina_', password: 'Tia_turbina_123', role: 'officer', name: 'Tia_turbina_' }
 ];
 
 const AuthContext = createContext(null);

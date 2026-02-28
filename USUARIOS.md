@@ -20,6 +20,7 @@
 | `Katlyne` | `Katlyne123` | Oficial | Acceso completo + Panel de oficial |
 | `CORDERO` | `CORDERO123` | Oficial | Acceso completo + Panel de oficial |
 | `Sunstrider_Revenge` | `Sunstrider_Revenge123` | Oficial | Acceso completo + Panel de oficial |
+| `Tia_turbina_` | `Tia_turbina_123` | Oficial | Acceso completo + Panel de oficial |
 
 ---
 
@@ -63,6 +64,7 @@ Los siguientes oficiales tienen acceso al **Gestor de Equipos de Batalla** (igua
 - `Katlyne` / `Katlyne123`
 - `CORDERO` / `CORDERO123`
 - `Sunstrider_Revenge` / `Sunstrider_Revenge123`
+- `Tia_turbina_` / `Tia_turbina_123`
 
 Cada uno tiene:
 - ✅ **Gestor de Equipos de Batalla** con:
