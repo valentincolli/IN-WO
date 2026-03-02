@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import PublicTeamsView from './PublicTeamsView';
 
 const Login = ({ clanInfo, playersStats }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showLogin, setShowLogin] = useState(false);
+  const [showTeams, setShowTeams] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = (e) => {
@@ -151,7 +153,38 @@ const Login = ({ clanInfo, playersStats }) => {
 
       {/* Contenido principal */}
       <main className="main-content public-main">
-        <div className="public-grid">
+        {showTeams ? (
+          <div className="public-teams-wrapper">
+            <button 
+              className="back-to-home-btn"
+              onClick={() => {
+                console.log('Volviendo al inicio');
+                setShowTeams(false);
+              }}
+            >
+              ← Volver al inicio
+            </button>
+            <PublicTeamsView playersStats={playersStats} />
+          </div>
+        ) : (
+          <>
+          <div className="public-actions-bar">
+            <button 
+              className="cw-teams-btn"
+              onClick={() => {
+                console.log('Click en botón de equipos, showTeams:', showTeams);
+                setShowTeams(true);
+              }}
+              style={{ 
+                display: 'block',
+                margin: '0 auto',
+                cursor: 'pointer'
+              }}
+            >
+              ⚔️ Ver Equipos de Clan Wars
+            </button>
+          </div>
+          <div className="public-grid">
           {/* Descripción del clan */}
           <div className="clan-description-card">
             <h2 className="card-title">
@@ -299,6 +332,8 @@ const Login = ({ clanInfo, playersStats }) => {
             )}
           </div>
         </div>
+        </>
+        )}
       </main>
 
       <footer className="footer">

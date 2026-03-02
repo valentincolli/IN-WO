@@ -2621,3 +2621,234 @@ body {
     padding: 0.4rem;
   }
 }
+
+/* ========================================
+   PUBLIC TEAMS VIEW - Vista Pública de Equipos
+   ======================================== */
+.public-actions-bar {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cw-teams-btn {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: var(--color-bg-dark);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3);
+}
+
+.cw-teams-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.5);
+}
+
+.cw-teams-btn:active {
+  transform: translateY(0);
+}
+
+.public-teams-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.back-to-home-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-family: var(--font-secondary);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.back-to-home-btn:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.public-teams-view {
+  width: 100%;
+}
+
+.public-teams-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+}
+
+.public-teams-header h2 {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.public-teams-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+}
+
+.public-teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.public-team-card {
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.public-team-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.2);
+}
+
+.public-team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.public-team-owner {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.team-icon {
+  font-size: 1.8rem;
+}
+
+.public-team-count {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.public-team-table-container {
+  overflow-x: auto;
+}
+
+.public-team-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.public-team-table thead {
+  background: var(--color-bg-main);
+}
+
+.public-team-table th {
+  padding: 0.75rem;
+  text-align: left;
+  color: var(--color-accent);
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.public-team-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.public-team-table tbody tr:hover {
+  background: var(--color-bg-main);
+}
+
+.player-name-cell {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.win-rate-good {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.win-rate-normal {
+  color: var(--color-text-primary);
+}
+
+.no-teams-message {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-secondary);
+  font-size: 1.2rem;
+}
+
+.empty-team-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  background: var(--color-bg-main);
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+/* Responsive para Public Teams View */
+@media (max-width: 768px) {
+  .public-teams-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .public-team-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .public-team-table {
+    font-size: 0.8rem;
+  }
+
+  .public-team-table th,
+  .public-team-table td {
+    padding: 0.5rem;
+  }
+
+  .cw-teams-btn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
