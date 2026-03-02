@@ -8,17 +8,18 @@ const USERS = [
   { username: 'FireAriel', password: 'FireAriel', role: 'admin', name: 'FireAriel', isOfficer: true },
   { username: 'KIRITONYU', password: 'KIRITONYU', role: 'admin', name: 'KIRITONYU', isOfficer: true },
   // Oficiales
-  { username: 'fireariel', password: 'fireariel123', role: 'officer', name: 'fireariel' },
-  { username: 'Mayor_defa', password: 'Mayor_defa123', role: 'officer', name: 'Mayor_defa' },
-  { username: 'Kiritonyu', password: 'Kiritonyu123', role: 'officer', name: 'Kiritonyu' },
-  { username: 'judejum12', password: 'judejum12123', role: 'officer', name: 'judejum12' },
-  { username: '0_Whait_0', password: '0_Whait_0123', role: 'officer', name: '0_Whait_0' },
-  { username: 'ANTONIOB', password: 'ANTONIOB123', role: 'officer', name: 'ANTONIOB' },
-  { username: '_LastDrago_', password: '_LastDrago_123', role: 'officer', name: '_LastDrago_' },
-  { username: 'CrossNeri', password: 'CrossNeri123', role: 'officer', name: 'CrossNeri' },
-  { username: 'Katlyne', password: 'Katlyne123', role: 'officer', name: 'Katlyne' },
-  { username: 'CORDERO', password: 'CORDERO123', role: 'officer', name: 'CORDERO' },
-  { username: 'Sunstrider_Revenge', password: 'Sunstrider_Revenge123', role: 'officer', name: 'Sunstrider_Revenge' }
+  { username: 'fireariel', password: 'ipbyNMtNa5Xgrms', role: 'officer', name: 'fireariel' },
+  { username: 'Mayor_defa', password: 'qbVF9vXNocycHqa', role: 'officer', name: 'Mayor_defa' },
+  { username: 'Kiritonyu', password: 'OSiCkamO5vZ1dUT7', role: 'officer', name: 'Kiritonyu' },
+  { username: 'judejum12', password: 'tQVgtSNeh9wJhEL', role: 'officer', name: 'judejum12' },
+  { username: '0_Whait_0', password: 'OBVDeshi2crZ5zVF', role: 'officer', name: '0_Whait_0' },
+  { username: 'ANTONIOB', password: 'ZmImUg4fjikgwVt', role: 'officer', name: 'ANTONIOB' },
+  { username: '_LastDrago_', password: 'NgI9zum1IQtCqPdQ', role: 'officer', name: '_LastDrago_' },
+  { username: 'CrossNeri', password: '61RdiaUKc4pvp6', role: 'officer', name: 'CrossNeri' },
+  { username: 'Katlyne', password: 'aRGzgslq41OKo8', role: 'officer', name: 'Katlyne' },
+  { username: 'CORDERO', password: 'pDY6bBAbno6aaBpp', role: 'officer', name: 'CORDERO' },
+  { username: 'Sunstrider_Revenge', password: '0QhMCnQh1ZXooTxu', role: 'officer', name: 'Sunstrider_Revenge' },
+  { username: 'Tia_turbina_', password: 'iq3lSvELeM6K4dij', role: 'officer', name: 'Tia_turbina_' }
 ];
 
 const AuthContext = createContext(null);
