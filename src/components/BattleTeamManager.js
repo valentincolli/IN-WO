@@ -216,7 +216,7 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
     return () => clearTimeout(timeoutId);
   }, [membersArray, loadingTier10, tier10Counts]);
 
-  const roleOrder = {
+  const roleOrder = useMemo(() => ({
     commander: 1,
     executive_officer: 2,
     personnel_officer: 3,
@@ -228,7 +228,7 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
     private: 9,
     recruit: 10,
     reservist: 11
-  };
+  }), []);
 
   // Memoizar función para verificar si está en el equipo
   const isInTeam = useCallback((accountId) => {
@@ -633,10 +633,6 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
             </h3>
             <div className="members-grid">
               {selectedMembers.map(member => {
-                const isRestricted = isRestrictedOfficer(member.role);
-                const playerCheck = isPlayerInOtherTeam(member.account_id);
-                const isInOtherTeam = playerCheck.inOtherTeam;
-                
                 return (
                   <div key={member.account_id} className="member-card-wrapper selected-card">
                     <MemberCard
