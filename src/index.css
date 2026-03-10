@@ -6,7 +6,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; - Removido para mejor rendimiento en scroll */
+  scroll-behavior: auto;
 }
 
 body {

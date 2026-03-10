@@ -40,6 +40,9 @@ body {
   background: var(--color-bg-dark);
   color: var(--color-text-primary);
   min-height: 100vh;
+  /* Optimización de scroll */
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
 }
 
 .app {
@@ -182,6 +185,11 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
+  /* Optimización de scroll */
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .section-title {
@@ -304,6 +312,92 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Secciones de Jugadores Seleccionados y Disponibles */
+.selected-members-section {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: rgba(74, 125, 35, 0.1);
+  border: 1px solid rgba(74, 125, 35, 0.3);
+  border-radius: 4px;
+}
+
+.other-teams-members-section {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: rgba(139, 0, 0, 0.1);
+  border: 1px solid rgba(139, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.available-members-section {
+  padding: 1.5rem;
+  background: rgba(20, 20, 20, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.subsection-title {
+  font-family: var(--font-primary);
+  font-size: 1.3rem;
+  color: var(--color-text-primary);
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.subsection-title.selected-title {
+  color: #4a7c23;
+  border-bottom-color: rgba(74, 125, 35, 0.5);
+}
+
+.subsection-title.other-teams-title {
+  color: #8b0000;
+  border-bottom-color: rgba(139, 0, 0, 0.5);
+}
+
+.subsection-title.available-title {
+  color: var(--color-accent);
+  border-bottom-color: rgba(201, 162, 39, 0.3);
+}
+
+.section-icon {
+  font-size: 1.5rem;
+}
+
+.member-card-wrapper.selected-card {
+  border: 2px solid rgba(74, 125, 35, 0.5);
+  background: rgba(74, 125, 35, 0.05);
+}
+
+.member-card-wrapper.selected-card .member-card {
+  background: rgba(74, 125, 35, 0.08);
+}
+
+.member-card-wrapper.selected-card:hover {
+  border-color: rgba(74, 125, 35, 0.8);
+  background: rgba(74, 125, 35, 0.1);
+}
+
+.member-card-wrapper.other-team-card {
+  border: 2px solid rgba(139, 0, 0, 0.5);
+  background: rgba(139, 0, 0, 0.05);
+  opacity: 0.8;
+}
+
+.member-card-wrapper.other-team-card .member-card {
+  background: rgba(139, 0, 0, 0.08);
+}
+
+.member-card-wrapper.other-team-card:hover {
+  border-color: rgba(139, 0, 0, 0.8);
+  background: rgba(139, 0, 0, 0.1);
+  opacity: 0.9;
+}
+
 .members-controls {
   display: flex;
   gap: 0.5rem;
@@ -379,14 +473,23 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 0.75rem;
+  /* Optimizaciones de rendimiento para scroll */
+  contain: layout style paint;
+  will-change: scroll-position;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .member-card {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background 0.15s, border-color 0.15s;
   position: relative;
+  /* Optimizaciones de rendimiento */
+  contain: layout style paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .member-card::before {
@@ -398,6 +501,10 @@ body {
   width: 3px;
   background: var(--color-steel);
   transition: background 0.15s;
+  /* Optimización de rendimiento */
+  will-change: background;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .member-card:hover {
@@ -2153,6 +2260,11 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+  /* Optimización de scroll - aceleración por hardware */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Aislar el layout para mejor rendimiento */
+  contain: layout style;
 }
 
 .team-section {
@@ -2302,6 +2414,10 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  /* Optimización de rendimiento para scroll */
+  contain: layout style paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .member-card-wrapper .member-card {

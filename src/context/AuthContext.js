@@ -8,17 +8,17 @@ const USERS = [
   { username: 'FireAriel', password: 'FireAriel', role: 'admin', name: 'FireAriel', isOfficer: true },
   { username: 'KIRITONYU', password: 'KIRITONYU', role: 'admin', name: 'KIRITONYU', isOfficer: true },
   // Oficiales
-  { username: 'fireariel', password: 'ipbyNMtNa5Xgrms', role: 'officer', name: 'fireariel' },
+  { username: 'fireariel', password: 'fireariel1280', role: 'officer', name: 'fireariel' },
   { username: 'Mayor_defa', password: 'qbVF9vXNocycHqa', role: 'officer', name: 'Mayor_defa' },
-  { username: 'Kiritonyu', password: 'OSiCkamO5vZ1dUT7', role: 'officer', name: 'Kiritonyu' },
+  { username: 'Kiritonyu', password: 'pilqui0911', role: 'officer', name: 'Kiritonyu' },
   { username: 'judejum12', password: 'tQVgtSNeh9wJhEL', role: 'officer', name: 'judejum12' },
   { username: '0_Whait_0', password: 'OBVDeshi2crZ5zVF', role: 'officer', name: '0_Whait_0' },
-  { username: 'ANTONIOB', password: 'ZmImUg4fjikgwVt', role: 'officer', name: 'ANTONIOB' },
   { username: '_LastDrago_', password: 'NgI9zum1IQtCqPdQ', role: 'officer', name: '_LastDrago_' },
   { username: 'CrossNeri', password: '61RdiaUKc4pvp6', role: 'officer', name: 'CrossNeri' },
   { username: 'Katlyne', password: 'aRGzgslq41OKo8', role: 'officer', name: 'Katlyne' },
   { username: 'CORDERO', password: 'pDY6bBAbno6aaBpp', role: 'officer', name: 'CORDERO' },
   { username: 'Sunstrider_Revenge', password: '0QhMCnQh1ZXooTxu', role: 'officer', name: 'Sunstrider_Revenge' },
+  { username: 'PreDatorS_69', password: 'jY8w4tLm2QzPaXu1', role: 'officer', name: 'Sunstrider_Revenge' },
   { username: 'Tia_turbina_', password: 'iq3lSvELeM6K4dij', role: 'officer', name: 'Tia_turbina_' }
 ];
 

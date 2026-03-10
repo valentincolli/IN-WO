@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import MemberCard from './MemberCard';
 import { calculateWN8, getPlayerTankStats, getAllVehiclesInfo } from '../services/wargamingApi';
 import { getTeam, saveTeam, getAllTeams } from '../services/teamApi';
@@ -14,9 +14,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [allTeams, setAllTeams] = useState({});
 
-  const getTeamOwnerName = () => {
+  const getTeamOwnerName = useCallback(() => {
     return username || 'Ariel';
-  };
+  }, [username]);
 
   // Cargar todos los equipos para verificar duplicados
   useEffect(() => {
@@ -230,15 +230,15 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
     reservist: 11
   };
 
-  const isInTeam = (accountId) => {
+  // Memoizar función para verificar si está en el equipo
+  const isInTeam = useCallback((accountId) => {
     return teamMembers.some(m => m.account_id === accountId);
-  };
+  }, [teamMembers]);
 
   // Verificar si un miembro es oficial que NO puede ser agregado
-  // Excluye: personnel_officer e intelligence_officer (estos SÍ se pueden agregar)
-  const isRestrictedOfficer = (role) => {
+  // Ahora se pueden agregar: commander, personnel_officer e intelligence_officer
+  const isRestrictedOfficer = useCallback((role) => {
     const restrictedOfficerRoles = [
-      'commander',
       'executive_officer',
       'combat_officer',
       'quartermaster',
@@ -246,10 +246,10 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
       'junior_officer'
     ];
     return restrictedOfficerRoles.includes(role);
-  };
+  }, []);
 
-  // Verificar si un jugador ya está en otro equipo
-  const isPlayerInOtherTeam = (accountId) => {
+  // Verificar si un jugador ya está en otro equipo - Memoizado
+  const isPlayerInOtherTeam = useCallback((accountId) => {
     const currentUsernameLower = username?.toLowerCase();
     // Mapeo de nombres normalizados a nombres de visualización
     const getDisplayName = (teamUsername) => {
@@ -288,12 +288,12 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
       }
     }
     return { inOtherTeam: false, owner: null };
-  };
+  }, [allTeams, username]);
 
-  const addToTeam = async (member) => {
+  const addToTeam = useCallback(async (member) => {
     // Verificar si el miembro es un oficial restringido (no puede ser agregado)
     if (isRestrictedOfficer(member.role)) {
-      alert('⚠️ No puedes agregar este tipo de oficial a tu equipo. Solo puedes agregar miembros regulares, Oficiales de Personal e Inteligencia.');
+      alert('⚠️ No puedes agregar este tipo de oficial a tu equipo. Puedes agregar miembros regulares, Comandantes, Oficiales de Personal e Inteligencia.');
       return;
     }
 
@@ -321,9 +321,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
         }
       }
     }
-  };
+  }, [isRestrictedOfficer, isPlayerInOtherTeam, isInTeam, teamMembers, username, playersStats]);
 
-  const removeFromTeam = async (accountId) => {
+  const removeFromTeam = useCallback(async (accountId) => {
     const newTeam = teamMembers.filter(m => m.account_id !== accountId);
     setTeamMembers(newTeam);
     // Guardar inmediatamente en el servidor (sin esperar el useEffect)
@@ -338,9 +338,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
         console.error('Error guardando equipo:', error);
       }
     }
-  };
+  }, [teamMembers, username]);
 
-  const clearTeam = async () => {
+  const clearTeam = useCallback(async () => {
     if (window.confirm('¿Estás seguro de que quieres limpiar todo el equipo?')) {
       setTeamMembers([]);
       // Guardar inmediatamente (equipo vacío) en el servidor
@@ -348,9 +348,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
         await saveTeam(username, []);
       }
     }
-  };
+  }, [username]);
 
-  const exportToTxt = () => {
+  const exportToTxt = useCallback(() => {
     if (teamMembers.length === 0) {
       alert('No hay jugadores en el equipo para exportar');
       return;
@@ -392,9 +392,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  };
+  }, [teamMembers, playersStats, getTeamOwnerName]);
 
-  const sortMembers = (membersList) => {
+  const sortMembers = useCallback((membersList) => {
     return [...membersList].sort((a, b) => {
       const statsA = playersStats[a.account_id];
       const statsB = playersStats[b.account_id];
@@ -420,9 +420,9 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
           return 0;
       }
     });
-  };
+  }, [sortBy, playersStats, roleOrder]);
 
-  const filterMembers = (membersList) => {
+  const filterMembers = useCallback((membersList) => {
     let filtered = membersList;
 
     if (filterRole !== 'all') {
@@ -438,9 +438,31 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
     }
 
     return filtered;
-  };
+  }, [filterRole, searchTerm, playersStats]);
 
-  const filteredAndSortedMembers = sortMembers(filterMembers(membersArray));
+  // Memoizar los miembros filtrados y ordenados
+  const filteredAndSortedMembers = useMemo(() => {
+    return sortMembers(filterMembers(membersArray));
+  }, [membersArray, sortMembers, filterMembers]);
+
+  // Memoizar la separación de miembros en seleccionados, disponibles y en otros equipos
+  const { selectedMembers, membersInOtherTeams, availableMembers } = useMemo(() => {
+    const selected = filteredAndSortedMembers.filter(m => isInTeam(m.account_id));
+    
+    const inOtherTeams = filteredAndSortedMembers.filter(m => {
+      if (isInTeam(m.account_id)) return false; // Ya está en mi equipo
+      const playerCheck = isPlayerInOtherTeam(m.account_id);
+      return playerCheck.inOtherTeam;
+    });
+    
+    const available = filteredAndSortedMembers.filter(m => {
+      if (isInTeam(m.account_id)) return false; // Ya está en mi equipo
+      const playerCheck = isPlayerInOtherTeam(m.account_id);
+      return !playerCheck.inOtherTeam; // No está en otro equipo
+    });
+    
+    return { selectedMembers: selected, membersInOtherTeams: inOtherTeams, availableMembers: available };
+  }, [filteredAndSortedMembers, isInTeam, isPlayerInOtherTeam]);
 
   const uniqueRoles = [...new Set(membersArray.map(m => m.role))].sort(
     (a, b) => (roleOrder[a] || 99) - (roleOrder[b] || 99)
@@ -602,62 +624,122 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
           </div>
         </div>
 
-        <div className="members-grid">
-          {filteredAndSortedMembers.map(member => {
-            const inTeam = isInTeam(member.account_id);
-            const isRestricted = isRestrictedOfficer(member.role);
-            const playerCheck = isPlayerInOtherTeam(member.account_id);
-            const isInOtherTeam = playerCheck.inOtherTeam;
-            
-            return (
-              <div key={member.account_id} className="member-card-wrapper">
-                <MemberCard
-                  member={member}
-                  stats={playersStats[member.account_id]}
-                  tier10Count={tier10Counts[member.account_id] ?? (loadingTier10 ? '...' : null)}
-                  onClick={() => onMemberClick(member, playersStats[member.account_id])}
-                />
-                <div className="member-card-actions">
-                  {inTeam ? (
-                    <button 
-                      className="add-btn in-team"
-                      onClick={() => removeFromTeam(member.account_id)}
-                      title="Quitar del equipo"
-                    >
-                      ✓ En Equipo
-                    </button>
-                  ) : isRestricted ? (
-                    <button 
-                      className="add-btn disabled"
-                      disabled
-                      title="Este tipo de oficial no puede ser agregado al equipo"
-                    >
-                      ⛔ Oficial
-                    </button>
-                  ) : isInOtherTeam ? (
-                    <button 
-                      className="add-btn disabled"
-                      disabled
-                      title={`Este jugador ya está en el equipo de ${playerCheck.owner}`}
-                    >
-                      🔒 En otro equipo
-                    </button>
-                  ) : (
-                    <button 
-                      className="add-btn"
-                      onClick={() => addToTeam(member)}
-                      title="Agregar al equipo"
-                    >
-                      ➕ Agregar
-                    </button>
-                  )}
+        {/* Sección de Jugadores Seleccionados */}
+        {selectedMembers.length > 0 && (
+          <div className="selected-members-section">
+            <h3 className="subsection-title selected-title">
+              <span className="section-icon">✅</span>
+              Jugadores Seleccionados por mi ({selectedMembers.length})
+            </h3>
+            <div className="members-grid">
+              {selectedMembers.map(member => {
+                const isRestricted = isRestrictedOfficer(member.role);
+                const playerCheck = isPlayerInOtherTeam(member.account_id);
+                const isInOtherTeam = playerCheck.inOtherTeam;
+                
+                return (
+                  <div key={member.account_id} className="member-card-wrapper selected-card">
+                    <MemberCard
+                      member={member}
+                      stats={playersStats[member.account_id]}
+                      tier10Count={tier10Counts[member.account_id] ?? (loadingTier10 ? '...' : null)}
+                      onClick={() => onMemberClick(member, playersStats[member.account_id])}
+                    />
+                    <div className="member-card-actions">
+                      <button 
+                        className="add-btn in-team"
+                        onClick={() => removeFromTeam(member.account_id)}
+                        title="Quitar del equipo"
+                      >
+                        ➖ Quitar
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Sección de Jugadores en Otros Equipos */}
+        {membersInOtherTeams.length > 0 && (
+          <div className="other-teams-members-section">
+            <h3 className="subsection-title other-teams-title">
+              <span className="section-icon">🔒</span>
+              Jugadores en Otros Equipos ({membersInOtherTeams.length})
+            </h3>
+            <div className="members-grid">
+              {membersInOtherTeams.map(member => {
+                const playerCheck = isPlayerInOtherTeam(member.account_id);
+                
+                return (
+                  <div key={member.account_id} className="member-card-wrapper other-team-card">
+                    <MemberCard
+                      member={member}
+                      stats={playersStats[member.account_id]}
+                      tier10Count={tier10Counts[member.account_id] ?? (loadingTier10 ? '...' : null)}
+                      onClick={() => onMemberClick(member, playersStats[member.account_id])}
+                    />
+                    <div className="member-card-actions">
+                      <button 
+                        className="add-btn disabled"
+                        disabled
+                        title={`Este jugador ya está en el equipo de ${playerCheck.owner}`}
+                      >
+                        🔒 En equipo de {playerCheck.owner}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Sección de Jugadores Disponibles */}
+        <div className="available-members-section">
+          <h3 className="subsection-title available-title">
+            <span className="section-icon">📋</span>
+            Jugadores Disponibles ({availableMembers.length})
+          </h3>
+          <div className="members-grid">
+            {availableMembers.map(member => {
+              const isRestricted = isRestrictedOfficer(member.role);
+              
+              return (
+                <div key={member.account_id} className="member-card-wrapper">
+                  <MemberCard
+                    member={member}
+                    stats={playersStats[member.account_id]}
+                    tier10Count={tier10Counts[member.account_id] ?? (loadingTier10 ? '...' : null)}
+                    onClick={() => onMemberClick(member, playersStats[member.account_id])}
+                  />
+                  <div className="member-card-actions">
+                    {isRestricted ? (
+                      <button 
+                        className="add-btn disabled"
+                        disabled
+                        title="Este tipo de oficial no puede ser agregado al equipo"
+                      >
+                        ⛔ Oficial
+                      </button>
+                    ) : (
+                      <button 
+                        className="add-btn"
+                        onClick={() => addToTeam(member)}
+                        title="Agregar al equipo"
+                      >
+                        ➕ Agregar
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {filteredAndSortedMembers.length === 0 && (
+        {selectedMembers.length === 0 && availableMembers.length === 0 && membersInOtherTeams.length === 0 && (
           <div className="no-results">
             <span className="no-results-icon">🔍</span>
             <p>No se encontraron jugadores</p>
