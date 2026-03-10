@@ -236,11 +236,10 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
   }, [teamMembers]);
 
   // Verificar si un miembro es oficial que NO puede ser agregado
-  // Ahora se pueden agregar: commander, personnel_officer e intelligence_officer
+  // Ahora se pueden agregar: commander, combat_officer, personnel_officer e intelligence_officer
   const isRestrictedOfficer = useCallback((role) => {
     const restrictedOfficerRoles = [
       'executive_officer',
-      'combat_officer',
       'quartermaster',
       'recruitment_officer',
       'junior_officer'
@@ -293,7 +292,7 @@ const BattleTeamManager = ({ members, playersStats, onMemberClick, username }) =
   const addToTeam = useCallback(async (member) => {
     // Verificar si el miembro es un oficial restringido (no puede ser agregado)
     if (isRestrictedOfficer(member.role)) {
-      alert('⚠️ No puedes agregar este tipo de oficial a tu equipo. Puedes agregar miembros regulares, Comandantes, Oficiales de Personal e Inteligencia.');
+      alert('⚠️ No puedes agregar este tipo de oficial a tu equipo. Puedes agregar miembros regulares, Comandantes, Oficiales de Combate, Oficiales de Personal e Inteligencia.');
       return;
     }
 
